@@ -1,0 +1,35 @@
+public List<Integer> preorderTraversal(TreeNode root) {
+    // Create a list to store the node values as they are visited
+    List<Integer> result = new ArrayList<>();
+
+    // Create a stack to store the nodes that need to be visited
+    Stack<TreeNode> stack = new Stack<>();
+
+    // If the root node is null, return the empty list
+    if (root == null) {
+        return result;
+    }
+
+    // Push the root node onto the stack
+    stack.push(root);
+
+    // While the stack is not empty
+    while (!stack.isEmpty()) {
+        // Pop the top node from the stack and add its value to the list
+        TreeNode node = stack.pop();
+        result.add(node.val);
+
+        // If the node has a right child, push it onto the stack
+        if (node.right != null) {
+            stack.push(node.right);
+        }
+
+        // If the node has a left child, push it onto the stack
+        if (node.left != null) {
+            stack.push(node.left);
+        }
+    }
+
+    // Return the list
+    return result;
+}
