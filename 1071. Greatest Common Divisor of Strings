@@ -1,0 +1,18 @@
+
+
+class Solution {
+    public String gcdOfStrings(String str1, String str2) {
+        int len1 = str1.length();
+        int len2 = str2.length();
+        if (len1 < len2) {
+            return gcdOfStrings(str2, str1);
+        }
+        if (!str1.startsWith(str2)) {
+            return "";
+        }
+        if (str2.isEmpty()) {
+            return str1;
+        }
+        return gcdOfStrings(str1.substring(len2), str2);
+    }
+}
