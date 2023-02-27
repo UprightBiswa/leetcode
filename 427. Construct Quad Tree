@@ -1,0 +1,35 @@
+class Solution {
+    public Node construct(int[][] grid) {
+        int n = grid.length;
+        return buildTree(grid, 0, 0, n-1, n-1);
+    }
+    
+    private Node buildTree(int[][] grid, int left, int top, int right, int bottom) {
+        if (left > right || top > bottom) {
+            return null;
+        }
+        boolean isLeaf = true;
+        int val = grid[top][left];
+        for (int i = top; i <= bottom; i++) {
+            for (int j = left; j <= right; j++) {
+                if (grid[i][j] != val) {
+                    isLeaf = false;
+                    break;
+                }
+            }
+            if (!isLeaf) {
+                break;
+            }
+        }
+        if (isLeaf) {
+            return new Node(val == 1, true, null, null, null, null);
+        }
+        int midX = left + (right - left) / 2;
+        int midY = top + (bottom - top) / 2;
+        Node topLeft = buildTree(grid, left, top, midX, midY);
+        Node topRight = buildTree(grid, midX+1, top, right, midY);
+        Node bottomLeft = buildTree(grid, left, midY+1, midX, bottom);
+        Node bottomRight = buildTree(grid, midX+1, midY+1, right, bottom);
+        return new Node(false, false, topLeft, topRight, bottomLeft, bottomRight);
+    }
+}
