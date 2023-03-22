@@ -1,0 +1,91 @@
+class Solution {
+  public int minScore(int n, int[][] roads) {
+    int ans = Integer.MAX_VALUE;
+    List<Pair<Integer, Integer>>[] graph = new List[n]; // graph[u] := [(v, distance)]
+    Queue<Integer> q = new ArrayDeque<>(Arrays.asList(0));
+    boolean[] seen = new boolean[n];
+    seen[0] = true;
+
+    for (int i = 0; i < n; ++i)
+      graph[i] = new ArrayList<>();
+
+    for (final int[] r : roads) {
+      final int u = r[0] - 1;
+      final int v = r[1] - 1;
+      final int distance = r[2];
+      graph[u].add(new Pair<>(v, distance));
+      graph[v].add(new Pair<>(u, distance));
+    }
+
+    while (!q.isEmpty()) {
+      final int u = q.poll();
+      for (Pair<Integer, Integer> pair : graph[u]) {
+        final int v = pair.getKey();
+        final int d = pair.getValue();
+        ans = Math.min(ans, d);
+        if (seen[v])
+          continue;
+        q.offer(v);
+        seen[v] = true;
+      }
+    }
+
+    return ans;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//dart
+
+import 'dart:collection';
+
+class Solution {
+  int minScore(int n, List<List<int>> roads) {
+    int ans = 2147483647;
+    List<List<Pair<int, int>>> graph = List.generate(n, (_) => []);
+    Queue<int> q = Queue.of([0]);
+    List<bool> seen = List.filled(n, false);
+
+    for (final r in roads) {
+      final int u = r[0] - 1;
+      final int v = r[1] - 1;
+      final int distance = r[2];
+      graph[u].add(Pair(v, distance));
+      graph[v].add(Pair(u, distance));
+    }
+
+    while (q.isNotEmpty) {
+      final int u = q.removeFirst();
+      for (Pair<int, int> pair in graph[u]) {
+        final int v = pair.key;
+        final int d = pair.value;
+        ans = ans < d ? ans : d;
+        if (seen[v])
+          continue;
+        q.add(v);
+        seen[v] = true;
+      }
+    }
+
+    return ans;
+  }
+}
+
+class Pair<K, V> {
+  final K key;
+  final V value;
+
+  Pair(this.key, this.value);
+}
+
+
